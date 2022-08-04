@@ -5,8 +5,8 @@ from pathlib import Path
 
 
 def t_convert():
-    j_files = os.listdir("./convert_test_json")
-    Path("./output_mp3").mkdir(parents=True, exist_ok=True)
+    j_files = os.listdir("../convert_test_json")
+    Path("../output_mp3").mkdir(parents=True, exist_ok=True)
     for j_file in j_files:
         subprocess.run([
             'curl',
@@ -17,10 +17,10 @@ def t_convert():
             "-H",
             "Accept: audio/mpeg",
             "-d",
-            f"@./convert_test_json/{j_file}",
+            f"@../convert_test_json/{j_file}",
             'http://localhost:5000/convert',
             '-o',
-            f'./output_mp3/{j_file}.mp3'
+            f'../output_mp3/{j_file}.mp3'
         ],
             capture_output=True
         )
@@ -28,14 +28,14 @@ def t_convert():
 
 
 def t_generate():
-    Path("./output_random_json").mkdir(parents=True, exist_ok=True)
+    Path("../output_random_json").mkdir(parents=True, exist_ok=True)
     for i in range(0, 5):
         for j in range(0, 6):
             subprocess.run([
                 'curl',
                 f"http://localhost:5000/generate?level={i}&numkeys={j}",
                 '-o',
-                f'./output_random_json/lvl={i}, numkeys={j}.json'
+                f'../output_random_json/lvl={i}, numkeys={j}.json'
             ],
                 capture_output=True
             )
@@ -57,8 +57,8 @@ def t_find():
     }
     arr[2] = dict()
     arr[3] = []
-    Path("./output_find").mkdir(parents=True, exist_ok=True)
-    Path("./test_data_find").mkdir(parents=True, exist_ok=True)
+    Path("../output_find").mkdir(parents=True, exist_ok=True)
+    Path("../test_data_find").mkdir(parents=True, exist_ok=True)
     test_cases = [
         [
             "value=Great",
@@ -77,7 +77,7 @@ def t_find():
         ]
     ]
     for i, el in enumerate(arr):
-        f = open(f"./test_data_find/{i}.json", "w")
+        f = open(f"../test_data_find/{i}.json", "w")
         json.dump(el, f)
         f.close()
 
@@ -92,10 +92,10 @@ def t_find():
                 "-H",
                 "Accept: application/json",
                 "-d",
-                f"@./test_data_find/{i}.json",
+                f"@../test_data_find/{i}.json",
                 f'http://localhost:5000/find?{el}',
                 '-o',
-                f'./output_find/{i},{j}.json'
+                f'../output_find/{i},{j}.json'
             ],
                 capture_output=True
             )
@@ -104,7 +104,7 @@ def t_find():
 
 
 def t_keys():
-    Path("./test_data_keys").mkdir(parents=True, exist_ok=True)
+    Path("../test_data_keys").mkdir(parents=True, exist_ok=True)
     arr = [None] * 2
     arr[0] = {
         "America": "Great",
@@ -128,11 +128,11 @@ def t_keys():
     }
 
     for i, el in enumerate(arr):
-        f = open(f"./test_data_keys/{i}.json", "w")
+        f = open(f"../test_data_keys/{i}.json", "w")
         json.dump(el, f)
         f.close()
 
-    Path("./output_keys").mkdir(parents=True, exist_ok=True)
+    Path("../output_keys").mkdir(parents=True, exist_ok=True)
     for i in range(len(arr)):
         subprocess.run([
             'curl',
@@ -143,10 +143,10 @@ def t_keys():
             "-H",
             "Accept: application/json",
             "-d",
-            f"@./test_data_keys/{i}.json",
+            f"@../test_data_keys/{i}.json",
             f'http://localhost:5000/keys',
             '-o',
-            f'./output_keys/{i}.json'
+            f'../output_keys/{i}.json'
         ],
             capture_output=True
         )
